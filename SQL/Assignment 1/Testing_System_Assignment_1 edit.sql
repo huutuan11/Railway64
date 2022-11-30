@@ -6,7 +6,7 @@ DepartmentName nvarchar(255)
 );
 create table Positions(
 PositionID int not null auto_increment unique,
-PositionName nvarchar(255)
+PositionName enum ('Dev', 'Test', 'Scrum Master', 'PM')
 );
 create table Accounts(
 AccountID int not null auto_increment unique,
@@ -63,4 +63,3 @@ create table ExamQuestion(
 ExamID int,
 QuestionID int
 );
-typequestionquestion
