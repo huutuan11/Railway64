@@ -1,15 +1,14 @@
-drop database if exists Testing_System_Assignment_1;
-create database  Testing_System_Assignment_1;
-use Testing_System_Assignment_1;
-create table Department(
-DepartmentID int(50) not null auto_increment,
-DepartmentName nvarchar(255) not null,
+DROP DATABASE IF EXISTS Testing_System_Assignment_1;
+CREATE DATABASE  Testing_System_Assignment_1;
+USE Testing_System_Assignment_1;
+CREATE TABLE Department(
+DepartmentID INT(50) NOT NULL AUTO_INCREMENT,
+DepartmentName NVARCHAR(255) not null,
 primary key (DepartmentID)
 );
 create table Positions(
-PositionID int not null auto_increment,
-PositionName enum('Dev', 'Test', 'Scrum Master', 'PM') DEFAULT ('Dev'),
-primary key(PositionID)
+PositionID int not null auto_increment UNIQUE,
+PositionName enum('Dev', 'Test', 'Scrum Master', 'PM') DEFAULT ('Dev')
 );
 create table Accounts(
 AccountID int(50) not null auto_increment,
@@ -19,22 +18,27 @@ Fullname char(255) not null,
 DepartmentID int(50) not null,
 PositionID int(50) not null,
 CreateDate date,
-primary key(AccountID)
+primary key(AccountID),
+FOREIGN KEY (DepartmentID) REFERENCES  Department(DepartmentID),
+FOREIGN KEY (PositionID) REFERENCES  Positions(PositionID)
 );
 create table Group1(
-GroupID int(50) not null auto_increment unique,
+GroupID int(50) not null auto_increment,
 GroupName varchar(255),
-CreatorID int(50) not null unique,
-CreateDate date
+CreatorID int(50) not null,
+CreateDate date,
+PRIMARY KEY (GroupID)
 );
 create table GroupAccount(
-GroupID varchar(50) not null,
+GroupID int(50) not null,
 AccountID int(50) not null,
-Joindate date not null
+Joindate date not null,
+FOREIGN KEY (AccountID) REFERENCES Accounts(AccountID),
+FOREIGN KEY (GroupID) REFERENCES Group1(GroupID)
 );
 create table TypeQuestion(
 TypeID int not null auto_increment,
-TypeName enum('Essay', 'Multiple-Choice') default 'Essay',
+TypeName enum('Essay', 'Multiple-Choice'),
 PRIMARY KEY(typeID)
 );
 create table CategoryQuestion(
@@ -49,14 +53,18 @@ CategoryID int,
 TypeID int,
 CreatorID int,
 CreateDate date,
-primary key(QuestionID)
+PRIMARY KEY (QuestionID),
+FOREIGN KEY (CategoryID) REFERENCES CategoryQuestion(CategoryID),
+FOREIGN KEY (TypeID) REFERENCES TypeQuestion(TypeID),
+FOREIGN KEY (CreatorID) REFERENCES Accounts(AccountID)
 );
 create table Answer(
 AnswerID int not null auto_increment,
 Content varchar(255),
 QuestionID int,
 isCorrect enum('Đúng','Sai'),
-primary key(AnswerID)
+primary key(AnswerID),
+FOREIGN KEY (QuestionID) REFERENCES Question(QuestionID)
 );
 create table Exam(
 ExamID int not null auto_increment,
@@ -66,9 +74,12 @@ CategoryID int,
 Duration time,
 CreatorID int,
 CreateDate date,
-primary key(ExamID)
+primary key(ExamID),
+FOREIGN KEY (CategoryID) REFERENCES CategoryQuestion(CategoryID),
+FOREIGN KEY (CreatorID) REFERENCES Accounts(AccountID)
 );
 create table ExamQuestion(
 ExamID int,
-QuestionID INT
+QuestionID INT,
+FOREIGN KEY (QuestionID) REFERENCES Question(QuestionID)
 );
