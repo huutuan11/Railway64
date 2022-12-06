@@ -8,13 +8,13 @@ primary key (DepartmentID)
 );
 create table Positions(
 PositionID int not null auto_increment UNIQUE,
-PositionName enum('Dev', 'Test', 'Scrum Master', 'PM') DEFAULT ('Dev')
+PositionName VARCHAR(50)
 );
 create table Accounts(
-AccountID int(50) not null auto_increment,
+AccountID int not null auto_increment,
 Email varchar(255) not null,
-Username char(255) not null,
-Fullname char(255) not null,
+Username char(50) not null,
+Fullname char(50) not null,
 DepartmentID int(50) not null,
 PositionID int(50) not null,
 CreateDate date,
@@ -43,7 +43,7 @@ PRIMARY KEY(typeID)
 );
 create table CategoryQuestion(
 CategoryID int not null auto_increment,
-CategoryName nvarchar(255),
+CategoryName enum('Java', 'Ruby', 'Test', 'Python'),
 primary key(CategoryID)
 );
 create table Question(
@@ -71,7 +71,7 @@ ExamID int not null auto_increment,
 Codes varchar(20),
 Title varchar(255),
 CategoryID int,
-Duration time,
+Duration TIME,
 CreatorID int,
 CreateDate date,
 primary key(ExamID),
